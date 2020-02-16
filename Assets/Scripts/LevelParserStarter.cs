@@ -7,7 +7,7 @@ public class LevelParserStarter : MonoBehaviour
 {
     public string filename;
 
-    public GameObject Rock;
+    public GameObject Dirt;
 
     public GameObject Brick;
 
@@ -30,7 +30,7 @@ public class LevelParserStarter : MonoBehaviour
         using (StreamReader sr = new StreamReader(fileToParse))
         {
             string line = "";
-            int row = 0;
+            int row = 15;
 
             while ((line = sr.ReadLine()) != null)
             {
@@ -38,9 +38,12 @@ public class LevelParserStarter : MonoBehaviour
                 char[] letters = line.ToCharArray();
                 foreach (var letter in letters)
                 {
-                    //Call SpawnPrefab
+                    Vector3 tempVector = new Vector3(column, row, 0);
+                    SpawnPrefab(letter, tempVector);
+                    column += 1;
                 }
-
+             
+                row -= 1;
             }
 
             sr.Close();
@@ -53,17 +56,17 @@ public class LevelParserStarter : MonoBehaviour
 
         switch (spot)
         {
-            case 'b': Debug.Log("Spawn Brick"); break;
-            case '?': Debug.Log("Spawn QuestionBox"); break;
-            case 'x': Debug.Log("Spawn Rock"); break;
-            case 's': Debug.Log("Spawn Rock"); break;
+            case 'b': Debug.Log("Spawn Brick");  ToSpawn = Brick; break;
+            case '?': Debug.Log("Spawn QuestionBox"); ToSpawn = QuestionBox; break;
+            case 'x': Debug.Log("Spawn Dirt"); ToSpawn = Dirt; break;
+            case 's': Debug.Log("Spawn Stone"); ToSpawn = Stone; break;
             //default: Debug.Log("Default Entered"); break;
             default: return;
                 //ToSpawn = //Brick;       break;
         }
 
-        //ToSpawn = GameObject.Instantiate(ToSpawn, parentTransform);
-        //ToSpawn.transform.localPosition = positionToSpawn;
+        ToSpawn = GameObject.Instantiate(ToSpawn, parentTransform);
+        ToSpawn.transform.localPosition = positionToSpawn;
     }
 
     public void RefreshParse()
