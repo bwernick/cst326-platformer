@@ -2,7 +2,7 @@
 
 public class CameraMove : MonoBehaviour
 {
-    public int Speed = 50;
+    public float Speed = 0.05f;
 
     void Update()
     {
